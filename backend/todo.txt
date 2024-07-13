@@ -1,0 +1,5 @@
+schemas: likes, reviews, user, images
+ image: email, url, date, imageId, tags
+ likes: imageId, email, date
+ reviews: imageId, email, date, review
+ collection: array[imageId], name, createdBy(userId) , date, 
