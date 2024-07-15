@@ -9,6 +9,7 @@
   align-items: center;
   background-color: var(--bg1);
   padding-top: 20px;
+  padding-bottom: 20px;
 
   .images-list-container {
     width: 80%;
@@ -29,7 +30,7 @@
       img {
         width: 100%;
         @include md {
-          height: 300px;
+          height: 200px;
         }
       }
     }

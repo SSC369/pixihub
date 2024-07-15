@@ -4,7 +4,7 @@ import useSWR from "swr";
 import Cookies from "js-cookie";
 import axios from "axios";
 import Loader from "../../components/loader/Loader";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import { jwtDecode } from "jwt-decode";
 import moment from "moment";
@@ -24,6 +24,7 @@ import { RxCross2, RxDotFilled } from "react-icons/rx";
 import { AiOutlineDelete } from "react-icons/ai";
 import host from "../../host";
 import Modal from "../../components/modal/Modal";
+import empty from "../../assets/no-review.jpg";
 
 const downloadImage = async (url) => {
   const link = document.createElement("a");
@@ -42,14 +43,10 @@ const ImageDetails = () => {
   const { imageId } = useParams();
   const pixiToken = Cookies.get("pixiToken");
   const { userId: id } = jwtDecode(pixiToken);
-
+  const navigate = useNavigate();
   const fetcher = async (url) => {
     try {
-      const { data } = await axios.get(url, {
-        headers: {
-          "auth-token": pixiToken,
-        },
-      });
+      const { data } = await axios.get(url);
 
       return data;
     } catch (error) {
@@ -200,6 +197,15 @@ const ImageDetails = () => {
     }
   };
 
+  const renderEmptyView = () => {
+    return (
+      <div className="empty-reviews-container">
+        <img className="empty-image" src={empty} />
+        <p>Oops! Its's Empty</p>
+      </div>
+    );
+  };
+
   return (
     <div className="image-details-container">
       {isLoading || likesLoading || reviewsLoading ? (
@@ -221,16 +227,12 @@ const ImageDetails = () => {
             <p className="date">{dayjs(data?.date).format("MMM D, YYYY")}</p>
 
             <div className="profile-container">
-              {data?.profileImage.length === 0 ? (
-                <div className="profile">
-                  <FiUser />
-                </div>
-              ) : (
-                <img src={data?.profileImage} />
-              )}
-
+              <div className="profile">
+                <FiUser />
+              </div>
               <p className="name">{data?.username}</p>
             </div>
+
             <div className="icons-container">
               {liked ? (
                 <MdFavorite color="red" onClick={handleDislike} />
@@ -286,46 +288,61 @@ const ImageDetails = () => {
             {reviewsLoading ? (
               <Loader />
             ) : (
-              <div className="reviews-container">
-                {reviewsData?.map((r) => {
-                  const {
-                    review,
-                    username,
-                    reviewId,
-                    profileImage,
-                    date,
-                    userId,
-                  } = r;
+              <>
+                {reviewsData.length === 0 ? (
+                  renderEmptyView()
+                ) : (
+                  <div className="reviews-container">
+                    {reviewsData?.map((r) => {
+                      const {
+                        review,
+                        username,
+                        reviewId,
+                        profileImage,
+                        date,
+                        userId,
+                      } = r;
 
-                  return (
-                    <li key={reviewId} className="review-item">
-                      {profileImage.length === 0 ? (
-                        <div className="profile">
-                          <FiUser />
-                        </div>
-                      ) : (
-                        <img src={profileImage} />
-                      )}
+                      return (
+                        <li key={reviewId} className="review-item">
+                          {profileImage.length === 0 ? (
+                            <div
+                              style={{ cursor: "pointer" }}
+                              onClick={() => navigate(`/profile/${user}`)}
+                              className="profile"
+                            >
+                              <FiUser />
+                            </div>
+                          ) : (
+                            <img src={profileImage} />
+                          )}
 
-                      <div className="review-details">
-                        <div className="name">
-                          <p>{username}</p>
-                          <RxDotFilled />
-                          <span>{moment(date).fromNow()}</span>
-                        </div>
+                          <div className="review-details">
+                            <div className="name">
+                              <p
+                                style={{ cursor: "pointer" }}
+                                onClick={() => navigate(`/profile/${userId}`)}
+                              >
+                                {username}
+                              </p>
+                              <RxDotFilled />
+                              <span>{moment(date).fromNow()}</span>
+                            </div>
 
-                        <p className="review">{review}</p>
-                        {userId === id && (
-                          <AiOutlineDelete
-                            onClick={() => handleDelete(reviewId)}
-                            className="deleteIcon"
-                          />
-                        )}
-                      </div>
-                    </li>
-                  );
-                })}
-              </div>
+                            <p className="review">{review}</p>
+                            {userId === id && (
+                              <AiOutlineDelete
+                                onClick={() => handleDelete(reviewId)}
+                                className="deleteIcon"
+                              />
+                            )}
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>

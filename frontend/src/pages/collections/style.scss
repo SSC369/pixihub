@@ -1,0 +1,38 @@
+@import "../../mixins.scss";
+
+.user-collections-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0px;
+  .collections-container {
+    align-self: center;
+    list-style-type: none;
+    padding-left: 0;
+    width: 80%;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+
+    li {
+      width: fit-content;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      svg {
+        font-size: 5rem;
+        @include md {
+          font-size: 7rem;
+        }
+      }
+      p {
+        font-size: 12px;
+        font-weight: 500;
+        @include md {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}

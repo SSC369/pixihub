@@ -6,6 +6,7 @@ const imageRoutes = require("./routes/imageRoutes");
 const likeRoutes = require("./routes/likeRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const collectionRoutes = require("./routes/collectionRoutes");
+const followerRoutes = require("./routes/followerRoutes");
 
 const app = express();
 const cors = require("cors");
@@ -16,6 +17,7 @@ app.use("/api/image", imageRoutes);
 app.use("/api/like", likeRoutes);
 app.use("/api/review", reviewRoutes);
 app.use("/api/collection", collectionRoutes);
+app.use("/api/follower", followerRoutes);
 
 app.listen(3000, () => {
   console.log("Server is running on 3000 port");

@@ -1,13 +1,15 @@
 const mongoose = require("mongoose");
 
 const FollowerSchema = new mongoose.Schema({
-  userEmail: {
-    type: String,
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
     required: true,
   },
   //person who follow's user
-  followerEmail: {
-    type: String,
+  followerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
     required: true,
   },
   date: {
@@ -15,3 +17,5 @@ const FollowerSchema = new mongoose.Schema({
     required: true,
   },
 });
+
+module.exports = new mongoose.model("Follower", FollowerSchema);

@@ -68,7 +68,7 @@ const Modal = ({ onClose, imageId }) => {
   const renderEmptyView = () => {
     return (
       <div className="empty-view-container">
-        <img src={empty} />
+        <img className="empty-image" src={empty} />
         <p>Oops! Its's Empty</p>
       </div>
     );

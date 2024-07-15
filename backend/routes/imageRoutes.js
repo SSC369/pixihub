@@ -9,8 +9,8 @@ const {
 const validateUser = require("../middlewares/validateUser");
 
 router.post("/addimage", validateUser, addImage);
-router.get("/getAssets", validateUser, getAssets);
-router.get("/getimage/:imageId", validateUser, getImageDetails);
+router.get("/getAssets/:userId", getAssets);
+router.get("/getimage/:imageId", getImageDetails);
 router.get("/get-images", getImages);
 
 module.exports = router;

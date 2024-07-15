@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import "./style.scss";
 import toast, { Toaster } from "react-hot-toast";
@@ -24,7 +24,7 @@ const Header = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const path = pathname.slice(1);
-
+  const jwtToken = Cookies.get("pixiToken");
   const handleLogout = () => {
     Cookies.remove("jwtToken");
     toast.success("Signed out successfully", { duration: 1000 });
@@ -36,8 +36,17 @@ const Header = () => {
     navigate("/login");
   };
 
-  const jwtToken = Cookies.get("pixiToken");
-  const { userId } = jwtDecode(jwtToken);
+  useEffect(() => {
+    if (jwtToken === undefined) {
+      navigate("/login");
+    }
+  }, []);
+
+  let userId;
+  if (jwtToken !== undefined) {
+    const data = jwtDecode(jwtToken);
+    userId = data.userId;
+  }
 
   return (
     <>

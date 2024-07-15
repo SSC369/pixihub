@@ -2,6 +2,7 @@ const Image = require("../models/imageModel");
 const User = require("../models/userModel");
 const Like = require("../models/likeModel");
 const Review = require("../models/reviewModel");
+const { default: mongoose } = require("mongoose");
 
 module.exports.addImage = async (req, res) => {
   try {
@@ -51,12 +52,13 @@ module.exports.getImageDetails = async (req, res) => {
     res.status(500).json({ msg: "Internal Server error" });
   }
 };
-
 //assets of a user
 module.exports.getAssets = async (req, res) => {
   try {
-    const { email } = req.user;
-    const assets = await Image.find({ email });
+    const { userId } = req.params;
+    const assets = await Image.find({
+      userId: new mongoose.Types.ObjectId(userId),
+    });
     res.status(200).json({ assets });
   } catch (error) {
     console.log(error);
