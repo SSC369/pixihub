@@ -9,12 +9,12 @@ import AddImage from "./pages/addImage/AddImage";
 import ImageDetails from "./pages/imageDetails/ImageDetails";
 import Collections from "./pages/collections/Collections";
 import Downloads from "./pages/downloads/Downloads";
-import EditProfile from "./pages/editProfile/EditProfile";
 import Following from "./pages/following/Following";
 import Images from "./pages/images/Images";
 import Favorites from "./pages/favorites/Favorites";
 import { Toaster } from "react-hot-toast";
 import CollectionDetails from "./pages/collectionDetails/CollectionDetails";
+import Profile from "./pages/profile/Profile";
 
 const App = () => {
   const Wrapper = ({ children }) => {
@@ -79,14 +79,7 @@ const App = () => {
             </Wrapper>
           }
         />
-        <Route
-          path="/edit-profile"
-          element={
-            <Wrapper>
-              <EditProfile />
-            </Wrapper>
-          }
-        />
+
         <Route
           path="/following"
           element={
@@ -116,6 +109,14 @@ const App = () => {
           element={
             <Wrapper>
               <CollectionDetails />
+            </Wrapper>
+          }
+        />
+        <Route
+          path="/profile/:userId"
+          element={
+            <Wrapper>
+              <Profile />
             </Wrapper>
           }
         />

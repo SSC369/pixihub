@@ -68,7 +68,10 @@ const CollectionDetails = () => {
 
           <div className="row">
             <span>Created By:</span>
-            <div className="profile-container">
+            <div
+              onClick={() => navigate(`/profile/${userId}`)}
+              className="profile-container"
+            >
               {data?.userDetails.profileImage.length === 0 ? (
                 <div className="profile">
                   <FiUser />

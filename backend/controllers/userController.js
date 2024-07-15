@@ -106,11 +106,11 @@ module.exports.editProfile = async (req, res) => {
 module.exports.userProfile = async (req, res) => {
   try {
     const { userId } = req.params;
-    const { username, profileImage } = await User.findById(userId);
+    const { username, profileImage, email } = await User.findById(userId);
 
     return res
       .status(200)
-      .json({ userDetails: { username, profileImage, userId } });
+      .json({ userDetails: { username, profileImage, userId, email } });
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({ msg: "Server issue :(" });

@@ -13,6 +13,7 @@ import { PiHeart } from "react-icons/pi";
 import { BsFolder } from "react-icons/bs";
 import { FiDownload } from "react-icons/fi";
 import { RiUserFollowLine } from "react-icons/ri";
+import { jwtDecode } from "jwt-decode";
 import { searchContext } from "../../context/searchContext";
 
 const Header = () => {
@@ -36,6 +37,7 @@ const Header = () => {
   };
 
   const jwtToken = Cookies.get("pixiToken");
+  const { userId } = jwtDecode(jwtToken);
 
   return (
     <>
@@ -47,19 +49,19 @@ const Header = () => {
           </span>
         </div>
 
-        <div className="profile-container">
+        <div className="header-profile-container">
           <CgProfile onClick={() => setMenu(!menu)} />
           {menu && (
             <ul className="profile-menu">
               <li
                 style={
-                  path === "edit-profile"
+                  path === `/profile/${userId}`
                     ? { borderBottom: "2px solid var(--bg5)" }
                     : {}
                 }
-                onClick={() => navigate("/edit-profile")}
+                onClick={() => navigate(`/profile/${userId}`)}
               >
-                <p>Edit Profile</p>
+                <p>Profile</p>
                 <FaUserEdit />
               </li>
               <li
