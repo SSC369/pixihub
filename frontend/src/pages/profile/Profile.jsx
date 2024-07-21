@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./style.scss";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
 import host from "../../host";
@@ -20,20 +19,21 @@ import { FiEdit2 } from "react-icons/fi";
 import Cookies from "js-cookie";
 import { TbUserHexagon } from "react-icons/tb";
 import { jwtDecode } from "jwt-decode";
+import "./style.scss";
 
 const Profile = () => {
   const [file, setFile] = useState();
   const [imageUrl, setImageUrl] = useState("");
   const [username, setUsername] = useState("");
   const [assets, setAssets] = useState(0);
-  const [followers, setFollowers] = useState(0);
-  const [following, setFollowing] = useState(0);
+  const [isFollowing, setFollowing] = useState(false);
   const pixiToken = Cookies.get("pixiToken");
   const { userId: id } = jwtDecode(pixiToken);
   const [editName, setEditName] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { userId } = useParams();
 
-  const fetcher = async (url) => {
+  const profileFetcher = async (url) => {
     try {
       const { data } = await axios.get(url);
       return data.userDetails;
@@ -41,12 +41,48 @@ const Profile = () => {
       toast.error(error.message, { duration: 1000 });
     }
   };
-  const { isLoading, error, data, mutate } = useSWR(
-    `${host}/api/auth/profile/${userId}`,
-    fetcher
+  const {
+    isLoading: profileLoading,
+    data: profileData,
+    mutate: profileMutate,
+  } = useSWR(`${host}/api/auth/profile/${userId}`, profileFetcher);
+
+  //profile user followers data
+  const followersFetcher = async (url) => {
+    try {
+      const res = await axios.get(url);
+      if (res.status === 200) {
+        return res.data.followers;
+      }
+    } catch (error) {
+      toast.error(error.message, { duration: 1000 });
+    }
+  };
+  const {
+    data: followers,
+    isLoading: followersLoading,
+    mutate: followersDataMutate,
+  } = useSWR(`${host}/api/follower/followers/${userId}`, followersFetcher);
+
+  //profile user following data
+  const retrieveFollowingData = async (url) => {
+    try {
+      const res = await axios.get(url);
+      if (res.status === 200) {
+        return res.data.followingData;
+      }
+    } catch (error) {
+      toast.error(error.message, { duration: 1000 });
+    }
+  };
+  const { data: followingData, isLoading: followingDataLoading } = useSWR(
+    `${host}/api/follower/following/${userId}`,
+    retrieveFollowingData
   );
 
+  //retrive assets and user is following profile's user or not
   useEffect(() => {
+    setLoading(true);
     const retrieveAssets = async () => {
       try {
         const url = `${host}/api/image/getAssets/${userId}`;
@@ -58,41 +94,28 @@ const Profile = () => {
         toast.error(error.message, { duration: 1000 });
       }
     };
-    const retrieveFollowers = async () => {
+    const isFollowing = async () => {
       try {
-        const url = `${host}/api/follower/followers/${userId}`;
+        const url = `${host}/api/follower/isFollowing/${userId}/${id}`;
         const res = await axios.get(url);
-
         if (res.status === 200) {
-          setFollowers(res.data.followers.length);
+          setFollowing(res.data.following);
+          setLoading(false);
         }
       } catch (error) {
         toast.error(error.message, { duration: 1000 });
       }
     };
-    const retrieveFollowingCount = async () => {
-      try {
-        const url = `${host}/api/follower/following/${userId}`;
-        const res = await axios.get(url);
-
-        if (res.status === 200) {
-          setFollowing(res.data.followingData.length);
-        }
-      } catch (error) {
-        toast.error(error.message, { duration: 1000 });
-      }
-    };
+    isFollowing();
     retrieveAssets();
-    retrieveFollowers();
-    retrieveFollowingCount();
   }, []);
 
   useEffect(() => {
-    if (!isLoading) {
-      setUsername(data?.username);
-      setImageUrl(data?.profileImage);
+    if (!profileLoading) {
+      setUsername(profileData?.username);
+      setImageUrl(profileData?.profileImage);
     }
-  }, [isLoading]);
+  }, [profileLoading]);
 
   const uploadFile = () => {
     const storage = getStorage(app);
@@ -131,9 +154,40 @@ const Profile = () => {
     }
   }, [file]);
 
+  const handleFollow = async () => {
+    try {
+      const url = `${host}/api/follower/add-follower`;
+      const res = await axios.post(url, {
+        userId,
+        followerId: id,
+      });
+      if (res.status === 201) {
+        toast.success(res.data.msg, { duration: 1000 });
+        followersDataMutate();
+        setFollowing(true);
+      }
+    } catch (error) {
+      toast.error(error.message, { duration: 1000 });
+    }
+  };
+
+  const handleUnFollow = async () => {
+    try {
+      const url = `${host}/api/follower/remove-follower/${userId}/${id}`;
+      const res = await axios.delete(url);
+      if (res.status === 200) {
+        toast.success(res.data.msg, { duration: 1000 });
+        followersDataMutate();
+        setFollowing(false);
+      }
+    } catch (error) {
+      toast.error(error.message, { duration: 1000 });
+    }
+  };
+
   return (
     <>
-      {isLoading ? (
+      {profileLoading || followersLoading || followingDataLoading || loading ? (
         <Loader />
       ) : (
         <div className="profile-details-container">
@@ -181,15 +235,22 @@ const Profile = () => {
                     value={username}
                     type="text"
                   />
-                  <button
-                    style={!editName ? { boxShadow: "var(--shadow)" } : {}}
-                  >
-                    {id === userId ? (
-                      <FiEdit2 onClick={() => setEditName(!editName)} />
-                    ) : (
+
+                  {id === userId ? (
+                    <button
+                      onClick={(e) => {
+                        setEditName(!editName);
+                        e.stopPropagation();
+                      }}
+                      style={editName ? { boxShadow: "var(--shadow)" } : {}}
+                    >
+                      <FiEdit2 />
+                    </button>
+                  ) : (
+                    <button>
                       <TbUserHexagon />
-                    )}
-                  </button>
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -199,7 +260,7 @@ const Profile = () => {
                   <input
                     style={{ pointerEvents: "none" }}
                     id="email"
-                    placeholder={data?.email}
+                    placeholder={profileData?.email}
                     type="email"
                   />
                   <button>
@@ -209,20 +270,38 @@ const Profile = () => {
               </div>
             </div>
 
-            <div className="profile-statistics">
-              <div>
-                <span>Assets</span>
-                <p>{assets}</p>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "16px" }}
+            >
+              <div className="profile-statistics">
+                <div>
+                  <span>Assets</span>
+                  <p>{assets}</p>
+                </div>
+
+                <div>
+                  <span>Followers</span>
+                  <p>{followers?.length}</p>
+                </div>
+                <div>
+                  <span>Following</span>
+                  <p>{followingData?.length}</p>
+                </div>
               </div>
 
-              <div>
-                <span>Followers</span>
-                <p>{followers}</p>
-              </div>
-              <div>
-                <span>Following</span>
-                <p>{following}</p>
-              </div>
+              {id !== userId && (
+                <>
+                  {isFollowing ? (
+                    <button onClick={handleUnFollow} className="follow">
+                      Unfollow
+                    </button>
+                  ) : (
+                    <button onClick={handleFollow} className="follow">
+                      Follow
+                    </button>
+                  )}
+                </>
+              )}
             </div>
           </div>
         </div>
