@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.scss";
 import useSWR from "swr";
 import host from "../../host";
@@ -13,7 +13,7 @@ import { FcOpenedFolder } from "react-icons/fc";
 import { FcFolder } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 
-const Modal = ({ onClose, imageId }) => {
+const Modal = ({ onClose, imageId, setBookmark }) => {
   const [name, setName] = useState("");
   const [add, setAdd] = useState(false);
   const pixiToken = Cookies.get("pixiToken");
@@ -35,6 +35,18 @@ const Modal = ({ onClose, imageId }) => {
     `${host}/api/collection/get-collections`,
     fetcher
   );
+  
+ useEffect(() => {
+  if(isLoading === false){
+    console.log(data)
+    data?.collections?.forEach((c) => {
+      const {  images} = c;
+      if(images.includes(imageId)){
+        setBookmark(true)
+      }
+    })
+  }
+ },[isLoading])
 
   const addCollection = async () => {
     try {
@@ -113,7 +125,6 @@ const Modal = ({ onClose, imageId }) => {
           },
         }
       );
-      console.log(res);
       if (res.status === 204) {
         toast.success(`Image Added into ${name}`, { duration: 1000 });
         mutate();
@@ -144,7 +155,7 @@ const Modal = ({ onClose, imageId }) => {
                 <ul className="collections-container">
                   {data?.collections?.map((c) => {
                     const { name, images, _id } = c;
-
+                    
                     return (
                       <li key={c._id}>
                         {images.includes(imageId) ? (

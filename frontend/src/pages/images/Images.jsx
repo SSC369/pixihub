@@ -8,18 +8,17 @@ import { BiImageAdd } from "react-icons/bi";
 import Loader from "../../components/loader/Loader";
 import { useNavigate } from "react-router-dom";
 import empty from "../../assets/empty.jpg";
+import { jwtDecode } from "jwt-decode";
 
 const Images = () => {
   const navigate = useNavigate();
+  const pixiToken = Cookies.get("pixiToken");
+  const {userId} = jwtDecode(pixiToken)
 
   const fetcher = async (url) => {
     try {
-      const pixiToken = Cookies.get("pixiToken");
-      const { data } = await axios.get(url, {
-        headers: {
-          "auth-token": pixiToken,
-        },
-      });
+    
+      const { data } = await axios.get(url);
 
       return data;
     } catch (error) {
@@ -27,7 +26,7 @@ const Images = () => {
     }
   };
   const { data, error, mutate, isLoading } = useSWR(
-    `${host}/api/image/getAssets`,
+    `${host}/api/image/getAssets/${userId}`,
     fetcher
   );
 

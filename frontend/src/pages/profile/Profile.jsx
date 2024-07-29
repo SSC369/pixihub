@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
 import host from "../../host";
@@ -89,6 +89,8 @@ const Profile = () => {
         const res = await axios.get(url);
         if (res.status === 200) {
           setAssets(res.data.assets.length);
+        }else{
+          toast.error(res.data.msg, {duration:1000})
         }
       } catch (error) {
         toast.error(error.message, { duration: 1000 });
@@ -101,6 +103,8 @@ const Profile = () => {
         if (res.status === 200) {
           setFollowing(res.data.following);
           setLoading(false);
+        }else{
+          toast.error(res.data.msg, {duration:1000})
         }
       } catch (error) {
         toast.error(error.message, { duration: 1000 });
@@ -165,6 +169,8 @@ const Profile = () => {
         toast.success(res.data.msg, { duration: 1000 });
         followersDataMutate();
         setFollowing(true);
+      }else{
+        toast.error(res.data.msg, {duration:1000})
       }
     } catch (error) {
       toast.error(error.message, { duration: 1000 });
@@ -179,6 +185,8 @@ const Profile = () => {
         toast.success(res.data.msg, { duration: 1000 });
         followersDataMutate();
         setFollowing(false);
+      }else{
+        toast.error(res.data.msg, {duration:1000})
       }
     } catch (error) {
       toast.error(error.message, { duration: 1000 });

@@ -23,7 +23,7 @@ import { BiShareAlt } from "react-icons/bi";
 import { RxCross2, RxDotFilled } from "react-icons/rx";
 import { AiOutlineDelete } from "react-icons/ai";
 import host from "../../host";
-import Modal from "../../components/modal/Modal";
+import CollectionsModal from "../../components/collectionModal/CollectionModal";
 import empty from "../../assets/no-review.jpg";
 
 const downloadImage = async (url) => {
@@ -38,12 +38,17 @@ const downloadImage = async (url) => {
 const ImageDetails = () => {
   const [liked, setLiked] = useState(false);
   const [bookmarkModal, setBookmarkModal] = useState(false);
+  const [bookmark, setBookmark] = useState(false)
   const [reviewsModal, setReviewsModal] = useState(false);
   const [review, setReview] = useState("");
   const { imageId } = useParams();
   const pixiToken = Cookies.get("pixiToken");
   const { userId: id } = jwtDecode(pixiToken);
   const navigate = useNavigate();
+
+
+
+
   const fetcher = async (url) => {
     try {
       const { data } = await axios.get(url);
@@ -53,7 +58,6 @@ const ImageDetails = () => {
       console.log(error.message);
     }
   };
-
   const { data, isLoading, error } = useSWR(
     `${host}/api/image/getimage/${imageId}`,
     fetcher
@@ -218,21 +222,6 @@ const ImageDetails = () => {
           <div className="details">
             <h2>{data?.title}</h2>
             <p className="desc">{data?.description}</p>
-            <p className="likes">
-              {likes} <span>Likes</span>
-            </p>
-            <p onClick={() => setReviewsModal(true)} className="reviews-count">
-              View all {reviewsData.length} Reviews
-            </p>
-            <p className="date">{dayjs(data?.date).format("MMM D, YYYY")}</p>
-
-            <div className="profile-container">
-              <div className="profile">
-                <FiUser />
-              </div>
-              <p className="name">{data?.username}</p>
-            </div>
-
             <div className="icons-container">
               {liked ? (
                 <MdFavorite color="red" onClick={handleDislike} />
@@ -247,13 +236,28 @@ const ImageDetails = () => {
               <LuDownload onClick={() => downloadImage(data?.imageUrl)} />
               <BiShareAlt />
 
-              {/* <MdOutlineBookmarkAdded /> */}
-
-              <MdOutlineBookmarkAdd
+              {bookmark ? <MdOutlineBookmarkAdded color="green" /> : <MdOutlineBookmarkAdd
                 onClick={() => {
                   setBookmarkModal(true);
                 }}
-              />
+              />}
+              
+            </div>
+            <p className="likes">
+              {likes} <span>Likes</span>
+            </p>
+            <p onClick={() => setReviewsModal(true)} className="reviews-count">
+              View all {reviewsData.length} Reviews
+            </p>
+            <p className="date">{dayjs(data?.date).format("MMM D, YYYY")}</p>
+           
+
+           
+            <div onClick={() => navigate(`/profile/${data?.userId}`)} className="profile-container">
+              <div className="profile">
+                <FiUser />
+              </div>
+              <p className="name">{data?.username}</p>
             </div>
           </div>
         </div>
@@ -349,9 +353,10 @@ const ImageDetails = () => {
       )}
 
       {bookmarkModal && (
-        <Modal imageId={imageId} onClose={() => setBookmarkModal(false)} />
+        <CollectionsModal setBookmark={setBookmark} imageId={imageId} onClose={() => setBookmarkModal(false)} />
       )}
     </div>
+
   );
 };
 
