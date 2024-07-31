@@ -6,6 +6,10 @@ import "./style.scss";
 import host from "../../host";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/loader/Loader";
+import Carousel from '../../components/carousel/Carousel'
+import Hero from "../../components/hero/Hero";
+import Features from "../../components/features/Features";
+import Footer from "../../components/footer/Footer";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -41,7 +45,14 @@ const Home = () => {
         <Loader />
       ) : (
         <div className="home">
-          {data?.length === 0 ? (
+          <div className="hero-carousel-container">
+          <Carousel/>
+          <Hero/>
+          </div>
+     
+      <Features/>
+      <Footer/>
+          {/* {data?.length === 0 ? (
             renderEmptyView()
           ) : (
             <ul className="images-list-container">
@@ -62,7 +73,7 @@ const Home = () => {
                 );
               })}
             </ul>
-          )}
+          )} */}
         </div>
       )}
     </>

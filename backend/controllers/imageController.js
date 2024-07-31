@@ -107,3 +107,12 @@ module.exports.getImages = async (req, res) => {
     res.status(500).json({ msg: "Internal Server error" });
   }
 };
+
+
+module.exports.getRandomImages = async(req, res) => {
+  try {
+    
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+}

@@ -1,0 +1,46 @@
+/* src/components/Features.scss */
+.features {
+    padding: 60px 20px;
+    text-align: center;
+ 
+
+    .features-title {
+        font-size: 2em;
+        margin-bottom: 40px;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+
+        .feature-item {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+
+            &:hover {
+                transform: translateY(-10px);
+            }
+
+            .feature-icon {
+                font-size: 2.5em;
+                color: #d9b99b;
+                margin-bottom: 20px;
+            }
+
+            h3 {
+                font-size: 1em;
+                margin-bottom: 10px;
+            }
+
+            p {
+                font-size: 0.8em;
+                color: #666;
+            }
+        }
+    }
+}
+
