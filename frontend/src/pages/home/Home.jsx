@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useSWR from "swr";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -6,7 +6,7 @@ import "./style.scss";
 import host from "../../host";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/loader/Loader";
-import Carousel from '../../components/carousel/Carousel'
+import Carousel from "../../components/carousel/Carousel";
 import Hero from "../../components/hero/Hero";
 import Features from "../../components/features/Features";
 import Footer from "../../components/footer/Footer";
@@ -32,13 +32,6 @@ const Home = () => {
     imagesFetcher
   );
 
-  const renderEmptyView = () => (
-    <div className="empty-view-container">
-      <img className="empty-image" src={empty} />
-      <h2>No Images Found</h2>
-    </div>
-  );
-
   return (
     <>
       {isLoading ? (
@@ -46,12 +39,12 @@ const Home = () => {
       ) : (
         <div className="home">
           <div className="hero-carousel-container">
-          <Carousel/>
-          <Hero/>
+            <Carousel />
+            <Hero />
           </div>
-     
-      <Features/>
-      <Footer/>
+
+          <Features />
+          <Footer />
           {/* {data?.length === 0 ? (
             renderEmptyView()
           ) : (

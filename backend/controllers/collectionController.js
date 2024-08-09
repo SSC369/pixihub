@@ -104,3 +104,14 @@ module.exports.removeImage = async (req, res) => {
     res.status(500).json({ msg: error.message });
   }
 };
+
+module.exports.deleteCollection = async (req, res) => {
+  try {
+    const { collectionId } = req.params;
+    await Collection.findByIdAndDelete(collectionId);
+    res.status(200).json({ msg: "Collection Deleted" });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ msg: error.message });
+  }
+};

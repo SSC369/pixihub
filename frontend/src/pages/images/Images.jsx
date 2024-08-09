@@ -1,23 +1,22 @@
 import React, { useState } from "react";
-import Cookies from "js-cookie";
 import axios from "axios";
 import useSWR from "swr";
 import host from "../../host";
 import "./style.scss";
 import { BiImageAdd } from "react-icons/bi";
 import Loader from "../../components/loader/Loader";
-import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useNavigate, useParams } from "react-router-dom";
 import empty from "../../assets/empty.jpg";
-import { jwtDecode } from "jwt-decode";
+import { MdDelete } from "react-icons/md";
+import { AiOutlineDelete } from "react-icons/ai";
 
-const Images = () => {
+const Images = ({ id }) => {
   const navigate = useNavigate();
-  const pixiToken = Cookies.get("pixiToken");
-  const {userId} = jwtDecode(pixiToken)
+  const { userId } = useParams();
 
   const fetcher = async (url) => {
     try {
-    
       const { data } = await axios.get(url);
 
       return data;
@@ -26,7 +25,7 @@ const Images = () => {
     }
   };
   const { data, error, mutate, isLoading } = useSWR(
-    `${host}/api/image/getAssets/${userId}`,
+    `${host}/api/image/getAssets/${userId || id}`,
     fetcher
   );
 
@@ -37,6 +36,19 @@ const Images = () => {
     </div>
   );
 
+  const handleImageDelete = async (id) => {
+    try {
+      const url = host + "/api/image/delete-image/" + id;
+      const res = await axios.delete(url);
+      if (res.status === 200) {
+        toast.success(res.data.msg, { duration: 1000 });
+        mutate();
+      }
+    } catch (error) {
+      toast.error(error.message, { duration: 1000 });
+    }
+  };
+
   return (
     <>
       {isLoading ? (
@@ -45,9 +57,18 @@ const Images = () => {
         </>
       ) : (
         <div className="images-container">
-          <div onClick={() => navigate("/add-image")} className="add-image">
-            <BiImageAdd />
-            <p>Add Image</p>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              gap: "40px",
+            }}
+          >
+            <h1>My Images</h1>
+            <div onClick={() => navigate("/add-image")} className="add-image">
+              <BiImageAdd />
+              <p>Add Image</p>
+            </div>
           </div>
 
           {data?.assets?.length === 0 ? (
@@ -62,11 +83,19 @@ const Images = () => {
                     onClick={() => navigate(`/image-details/${_id}`)}
                     key={_id}
                   >
-                    <div className="image-container">
+                    <div className="">
                       <img src={imageUrl} />
-                    </div>
 
-                    <p>{title}</p>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleImageDelete(_id);
+                        }}
+                        className="deleteButton"
+                      >
+                        <AiOutlineDelete />
+                      </button>
+                    </div>
                   </li>
                 );
               })}

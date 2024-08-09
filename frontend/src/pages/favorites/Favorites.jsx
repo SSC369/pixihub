@@ -36,7 +36,7 @@ const Favorites = () => {
     return (
       <div className="empty-view-container">
         <img className="empty-image" src={empty} />
-        <p>Oops! Its's Empty</p>
+        <h2>Oops! Its's Empty</h2>
       </div>
     );
   };
@@ -58,7 +58,7 @@ const Favorites = () => {
           ) : (
             <ul className="images-list-container">
               {data?.map((i) => {
-                const { title, imageId, imageUrl } = i;
+                const { imageId, imageUrl } = i;
 
                 return (
                   <li
@@ -68,8 +68,6 @@ const Favorites = () => {
                     <div className="image-container">
                       <img src={imageUrl} />
                     </div>
-
-                    <p>{title}</p>
                   </li>
                 );
               })}

@@ -30,7 +30,7 @@ const CollectionDetails = () => {
   };
 
   const { data, isLoading, mutate, error } = useSWR(
-    `${host}/api/collection/collection-details/${collectionId}`,
+    `${host}/api/collection/${collectionId}`,
     fetcher
   );
 
@@ -48,7 +48,7 @@ const CollectionDetails = () => {
   const handleRemoveImage = async (id) => {
     try {
       const url = `${host}/api/collection/remove-image/${collectionId}/${id}`;
-      const res = await axios.delete(url);
+      const res = await axios.put(url);
       if (res.status === 200) {
         toast.success(res.data.msg, { duration: 1000 });
         mutate();
@@ -58,6 +58,21 @@ const CollectionDetails = () => {
     }
   };
 
+  const handleDeleteCollection = async () => {
+    try {
+      const url = host + "/api/collection/" + collectionId;
+      const res = await axios.delete(url);
+      if (res.status === 200) {
+        const { data } = res;
+        toast.success(data.msg, { duration: 1000 });
+        setTimeout(() => {
+          navigate("/collections");
+        }, 1000);
+      }
+    } catch (error) {
+      toast.error(error.message, { duration: 1000 });
+    }
+  };
   return (
     <>
       {isLoading ? (
@@ -106,8 +121,7 @@ const CollectionDetails = () => {
                       onClick={() => navigate(`/image-details/${imageId}`)}
                       src={imageUrl}
                     />
-                    <div className="title">
-                      <p>{title}</p>
+                    <div className="icon">
                       {userId === data?.userDetails._id && (
                         <MdDeleteOutline
                           onClick={() => handleRemoveImage(imageId)}
@@ -119,6 +133,10 @@ const CollectionDetails = () => {
               })}
             </ul>
           )}
+
+          <button onClick={handleDeleteCollection} className="deleteIcon">
+            <MdDeleteOutline />
+          </button>
         </div>
       )}
     </>

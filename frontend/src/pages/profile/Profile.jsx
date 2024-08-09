@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
 import host from "../../host";
@@ -19,7 +19,9 @@ import { FiEdit2 } from "react-icons/fi";
 import Cookies from "js-cookie";
 import { TbUserHexagon } from "react-icons/tb";
 import { jwtDecode } from "jwt-decode";
+
 import "./style.scss";
+import FollowerModal from "../../components/followerModal/FollowerModal";
 
 const Profile = () => {
   const [file, setFile] = useState();
@@ -27,10 +29,12 @@ const Profile = () => {
   const [username, setUsername] = useState("");
   const [assets, setAssets] = useState(0);
   const [isFollowing, setFollowing] = useState(false);
-  const pixiToken = Cookies.get("pixiToken");
-  const { userId: id } = jwtDecode(pixiToken);
   const [editName, setEditName] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [followerModal, setFollowerModal] = useState(false);
+
+  const pixiToken = Cookies.get("pixiToken");
+  const { userId: id } = jwtDecode(pixiToken);
   const { userId } = useParams();
 
   const profileFetcher = async (url) => {
@@ -89,8 +93,8 @@ const Profile = () => {
         const res = await axios.get(url);
         if (res.status === 200) {
           setAssets(res.data.assets.length);
-        }else{
-          toast.error(res.data.msg, {duration:1000})
+        } else {
+          toast.error(res.data.msg, { duration: 1000 });
         }
       } catch (error) {
         toast.error(error.message, { duration: 1000 });
@@ -103,8 +107,8 @@ const Profile = () => {
         if (res.status === 200) {
           setFollowing(res.data.following);
           setLoading(false);
-        }else{
-          toast.error(res.data.msg, {duration:1000})
+        } else {
+          toast.error(res.data.msg, { duration: 1000 });
         }
       } catch (error) {
         toast.error(error.message, { duration: 1000 });
@@ -169,8 +173,8 @@ const Profile = () => {
         toast.success(res.data.msg, { duration: 1000 });
         followersDataMutate();
         setFollowing(true);
-      }else{
-        toast.error(res.data.msg, {duration:1000})
+      } else {
+        toast.error(res.data.msg, { duration: 1000 });
       }
     } catch (error) {
       toast.error(error.message, { duration: 1000 });
@@ -185,8 +189,8 @@ const Profile = () => {
         toast.success(res.data.msg, { duration: 1000 });
         followersDataMutate();
         setFollowing(false);
-      }else{
-        toast.error(res.data.msg, {duration:1000})
+      } else {
+        toast.error(res.data.msg, { duration: 1000 });
       }
     } catch (error) {
       toast.error(error.message, { duration: 1000 });
@@ -287,7 +291,7 @@ const Profile = () => {
                   <p>{assets}</p>
                 </div>
 
-                <div>
+                <div onClick={() => setFollowerModal(true)}>
                   <span>Followers</span>
                   <p>{followers?.length}</p>
                 </div>
@@ -313,6 +317,12 @@ const Profile = () => {
             </div>
           </div>
         </div>
+      )}
+      {followerModal && (
+        <FollowerModal
+          show={followerModal}
+          onClose={() => setFollowerModal(false)}
+        />
       )}
     </>
   );

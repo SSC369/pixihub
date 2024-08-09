@@ -4,6 +4,7 @@ import useSWR from "swr";
 import host from "../../host";
 import { FcFolder } from "react-icons/fc";
 import Cookies from "js-cookie";
+import empty from "../../assets/empty.jpg";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/loader/Loader";
@@ -30,6 +31,13 @@ const Collections = () => {
     fetcher
   );
 
+  const renderEmptyView = () => (
+    <div className="empty-view-container">
+      <img className="empty-image" src={empty} />
+      <h2>Collections empty</h2>
+    </div>
+  );
+
   return (
     <>
       {isLoading ? (
@@ -49,7 +57,6 @@ const Collections = () => {
                       <FcFolder
                         onClick={() => navigate(`/collection-details/${_id}`)}
                       />
-
                       <p>{name}</p>
                     </li>
                   );

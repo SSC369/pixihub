@@ -25,6 +25,7 @@ const Header = () => {
   const { pathname } = useLocation();
   const path = pathname.slice(1);
   const jwtToken = Cookies.get("pixiToken");
+
   const handleLogout = () => {
     Cookies.remove("jwtToken");
     toast.success("Signed out successfully", { duration: 1000 });
@@ -75,11 +76,11 @@ const Header = () => {
               </li>
               <li
                 style={
-                  path === "images"
+                  path === `images/${userId}`
                     ? { borderBottom: "2px solid var(--bg5)" }
                     : {}
                 }
-                onClick={() => navigate("/images")}
+                onClick={() => navigate(`/images/${userId}`)}
               >
                 <p>My Images</p>
                 <FaImages />

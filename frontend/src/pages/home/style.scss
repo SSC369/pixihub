@@ -6,51 +6,23 @@
   color: var(--text1);
   display: flex;
   flex-direction: column;
- align-items: center;
+  align-items: center;
   background-color: var(--bg1);
 
-  @include md{
+  @include md {
     padding-top: 20px;
   }
 
-  .hero-carousel-container{
+  .hero-carousel-container {
     width: 100%;
     display: flex;
-  flex-direction: column;
- align-items: center;
-    @include lg{
+    flex-direction: column;
+    align-items: center;
+    @include lg {
       flex-direction: row;
       justify-content: center;
       gap: 20px;
       align-items: flex-start;
-    }
-  }
-
-
-  
-
-  .images-list-container {
-    width: 80%;
-    list-style-type: none;
-    padding-left: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    @include md {
-      flex-direction: row;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    li {
-      @include md {
-        width: fit-content;
-      }
-      img {
-        width: 100%;
-        @include md {
-          height: 200px;
-        }
-      }
     }
   }
 }

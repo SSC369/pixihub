@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Header from "./components/header/Header";
 import Cookies from "js-cookie";
+import CollectionDetails from "./pages/collectionDetails/CollectionDetails";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
@@ -9,12 +10,11 @@ import AddImage from "./pages/addImage/AddImage";
 import ImageDetails from "./pages/imageDetails/ImageDetails";
 import Collections from "./pages/collections/Collections";
 import Downloads from "./pages/downloads/Downloads";
-import Following from "./pages/following/Following";
 import Images from "./pages/images/Images";
 import Favorites from "./pages/favorites/Favorites";
 import { Toaster } from "react-hot-toast";
-import CollectionDetails from "./pages/collectionDetails/CollectionDetails";
 import Profile from "./pages/profile/Profile";
+import Feed from "./pages/feed/Feed";
 
 const App = () => {
   const Wrapper = ({ children }) => {
@@ -81,10 +81,10 @@ const App = () => {
         />
 
         <Route
-          path="/following"
+          path="/images/:userId"
           element={
             <Wrapper>
-              <Following />
+              <Images />
             </Wrapper>
           }
         />
@@ -92,7 +92,7 @@ const App = () => {
           path="/images"
           element={
             <Wrapper>
-              <Images />
+              <Feed />
             </Wrapper>
           }
         />

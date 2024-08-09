@@ -18,6 +18,7 @@
     background-color: var(--bg5);
     box-shadow: var(--shadow);
     border-radius: 20px;
+    cursor: pointer;
     svg {
       font-size: 20px;
     }
@@ -26,26 +27,41 @@
     }
   }
   .images-list-container {
-    width: 80%;
+    width: 90%;
     list-style-type: none;
-    padding-left: 0;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     gap: 20px;
-    @include md {
-      flex-direction: row;
-      align-items: center;
-      flex-wrap: wrap;
-    }
+    flex-wrap: wrap;
+
     li {
+      position: relative;
       @include md {
         width: fit-content;
       }
-      img {
-        width: 100%;
-        @include md {
-          height: 300px;
+      .deleteButton {
+        background-color: var(--bg5);
+        border: none;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+
+        height: 30px;
+        width: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 100%;
+        cursor: pointer;
+        svg {
+          font-size: 16px;
+          :hover {
+            color: crimson;
+          }
         }
+      }
+      img {
+        height: 200px;
       }
     }
   }

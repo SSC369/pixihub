@@ -35,18 +35,17 @@ const Modal = ({ onClose, imageId, setBookmark }) => {
     `${host}/api/collection/get-collections`,
     fetcher
   );
-  
- useEffect(() => {
-  if(isLoading === false){
-    console.log(data)
-    data?.collections?.forEach((c) => {
-      const {  images} = c;
-      if(images.includes(imageId)){
-        setBookmark(true)
-      }
-    })
-  }
- },[isLoading])
+
+  useEffect(() => {
+    if (isLoading === false) {
+      data?.collections?.forEach((c) => {
+        const { images } = c;
+        if (images.includes(imageId)) {
+          setBookmark(true);
+        }
+      });
+    }
+  }, [isLoading]);
 
   const addCollection = async () => {
     try {
@@ -144,6 +143,31 @@ const Modal = ({ onClose, imageId, setBookmark }) => {
           <h3>Collections</h3>
         </div>
 
+        <div className="create-collection-container">
+          <div className="add" onClick={() => setAdd(!add)}>
+            {add ? <FiMinusCircle /> : <IoAddCircleOutline />}
+            <label>Create Collection</label>
+          </div>
+
+          {add && (
+            <div className="input-container">
+              <input
+                onChange={(e) => setName(e.target.value)}
+                value={name}
+                type="text"
+              />
+              <button
+                style={
+                  name === "" ? { pointerEvents: "none", opacity: "0.5" } : {}
+                }
+                onClick={addCollection}
+              >
+                Add
+              </button>
+            </div>
+          )}
+        </div>
+
         <>
           {isLoading ? (
             renderLoadingView()
@@ -155,7 +179,7 @@ const Modal = ({ onClose, imageId, setBookmark }) => {
                 <ul className="collections-container">
                   {data?.collections?.map((c) => {
                     const { name, images, _id } = c;
-                    
+
                     return (
                       <li key={c._id}>
                         {images.includes(imageId) ? (
@@ -181,31 +205,6 @@ const Modal = ({ onClose, imageId, setBookmark }) => {
             </>
           )}
         </>
-
-        <div className="create-collection-container">
-          <div className="add" onClick={() => setAdd(!add)}>
-            {add ? <FiMinusCircle /> : <IoAddCircleOutline />}
-            <label>Create Collection</label>
-          </div>
-
-          {add && (
-            <div className="input-container">
-              <input
-                onChange={(e) => setName(e.target.value)}
-                value={name}
-                type="text"
-              />
-              <button
-                style={
-                  name === "" ? { pointerEvents: "none", opacity: "0.5" } : {}
-                }
-                onClick={addCollection}
-              >
-                Add
-              </button>
-            </div>
-          )}
-        </div>
       </div>
     </div>
   );

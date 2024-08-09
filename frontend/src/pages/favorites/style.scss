@@ -9,6 +9,12 @@
   gap: 20px;
   align-items: center;
   padding-top: 20px;
+
+  h1 {
+    color: var(--text3);
+    font-size: 28px;
+  }
+
   .empty-view-container {
     height: 400px;
     display: flex;
@@ -30,6 +36,7 @@
       }
     }
   }
+
   .images-list-container {
     width: 80%;
     list-style-type: none;

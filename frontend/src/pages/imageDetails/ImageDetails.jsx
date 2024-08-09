@@ -38,16 +38,13 @@ const downloadImage = async (url) => {
 const ImageDetails = () => {
   const [liked, setLiked] = useState(false);
   const [bookmarkModal, setBookmarkModal] = useState(false);
-  const [bookmark, setBookmark] = useState(false)
+  const [bookmark, setBookmark] = useState(false);
   const [reviewsModal, setReviewsModal] = useState(false);
   const [review, setReview] = useState("");
   const { imageId } = useParams();
   const pixiToken = Cookies.get("pixiToken");
   const { userId: id } = jwtDecode(pixiToken);
   const navigate = useNavigate();
-
-
-
 
   const fetcher = async (url) => {
     try {
@@ -123,7 +120,7 @@ const ImageDetails = () => {
     try {
       setLiked(true);
       const url = `${host}/api/like/add-like`;
-      console.log(pixiToken);
+
       const res = await axios.post(
         url,
         {
@@ -236,12 +233,20 @@ const ImageDetails = () => {
               <LuDownload onClick={() => downloadImage(data?.imageUrl)} />
               <BiShareAlt />
 
-              {bookmark ? <MdOutlineBookmarkAdded color="green" /> : <MdOutlineBookmarkAdd
-                onClick={() => {
-                  setBookmarkModal(true);
-                }}
-              />}
-              
+              {bookmark ? (
+                <MdOutlineBookmarkAdded
+                  onClick={() => {
+                    setBookmarkModal(true);
+                  }}
+                  color="green"
+                />
+              ) : (
+                <MdOutlineBookmarkAdd
+                  onClick={() => {
+                    setBookmarkModal(true);
+                  }}
+                />
+              )}
             </div>
             <p className="likes">
               {likes} <span>Likes</span>
@@ -250,10 +255,11 @@ const ImageDetails = () => {
               View all {reviewsData.length} Reviews
             </p>
             <p className="date">{dayjs(data?.date).format("MMM D, YYYY")}</p>
-           
 
-           
-            <div onClick={() => navigate(`/profile/${data?.userId}`)} className="profile-container">
+            <div
+              onClick={() => navigate(`/profile/${data?.userId}`)}
+              className="profile-container"
+            >
               <div className="profile">
                 <FiUser />
               </div>
@@ -312,7 +318,7 @@ const ImageDetails = () => {
                           {profileImage.length === 0 ? (
                             <div
                               style={{ cursor: "pointer" }}
-                              onClick={() => navigate(`/profile/${user}`)}
+                              onClick={() => navigate(`/profile/${userId}`)}
                               className="profile"
                             >
                               <FiUser />
@@ -353,10 +359,13 @@ const ImageDetails = () => {
       )}
 
       {bookmarkModal && (
-        <CollectionsModal setBookmark={setBookmark} imageId={imageId} onClose={() => setBookmarkModal(false)} />
+        <CollectionsModal
+          setBookmark={setBookmark}
+          imageId={imageId}
+          onClose={() => setBookmarkModal(false)}
+        />
       )}
     </div>
-
   );
 };
 
