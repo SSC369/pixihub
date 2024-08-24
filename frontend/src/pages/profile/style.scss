@@ -1,0 +1,159 @@
+@import "../../mixins.scss";
+
+.profile-details-container {
+  min-height: calc(100dvh - 70px);
+  min-width: 300px;
+  color: var(--text1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .profile-details {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    @include lg {
+      align-items: flex-start;
+      flex-direction: row;
+      gap: 40px;
+    }
+
+    .profile-image-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: fit-content;
+      gap: 10px;
+      .image {
+        width: fit-content;
+        border-radius: 100%;
+        img {
+          height: 160px;
+        }
+      }
+
+      .profile-image {
+        background-color: var(--bg5);
+        width: 90px;
+        height: 90px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 100%;
+        box-shadow: var(--shadow);
+        @include md {
+          width: 140px;
+          height: 140px;
+        }
+        svg {
+          font-size: 36px;
+        }
+      }
+      label {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin: 0;
+        font-size: 18px;
+        .edit {
+          font-size: 16px;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .name-email {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 400px;
+      width: 100%;
+      @include md {
+        width: 50%;
+      }
+      .input-container {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+
+        label {
+          margin-bottom: 4px;
+          margin-left: 2px;
+          font-weight: 400;
+          color: var(--text3);
+          font-size: 14px;
+        }
+        .name {
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          background-color: var(--bg5);
+
+          input {
+            border: none;
+            height: 40px;
+            padding: 0px 10px;
+            color: var(--text1);
+            font-weight: 500;
+            outline: none;
+            font-size: 14px;
+            width: 80%;
+            background-color: transparent;
+            &::-webkit-input-placeholder {
+              color: var(--text1);
+            }
+          }
+          button {
+            background-color: var(--bg4);
+            border: none;
+            width: 20%;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            svg {
+              font-size: 16px;
+            }
+          }
+        }
+      }
+    }
+    .profile-statistics {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+
+      div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        @include md {
+          font-size: 1rem;
+        }
+        span {
+          color: var(--text3);
+          font-size: 14px;
+          font-weight: 400;
+        }
+        p {
+          font-size: 14px;
+          font-weight: 500;
+        }
+      }
+    }
+    .follow {
+      background-color: var(--bg4);
+      border: none;
+      height: 30px;
+      box-shadow: var(--shadow);
+      border-radius: 8px;
+    }
+  }
+}

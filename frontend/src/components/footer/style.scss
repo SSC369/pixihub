@@ -1,0 +1,142 @@
+@import '../../mixins.scss';
+
+.footer {
+    background-color: #222;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 20px 0px;
+
+    .footer-content {
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+     
+        @include lg{
+            max-width: 1000px;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+    
+
+        .footer-branding {
+            margin-bottom: 20px;
+         h2 {
+                font-size: 2em;
+                margin-bottom: 10px;
+            }
+
+            p {
+                font-size: 0.8em;
+                margin: 0;
+                color: lightgrey;
+            }
+        }
+
+        .footer-links {
+            display: flex;
+            width: 100%;
+            gap: 6px;
+           flex-direction: column;
+            margin-bottom: 20px;
+            @include lg{
+                width: fit-content;
+            }
+           
+            a {
+                color: #fff;
+                text-decoration: none;
+                font-size: 12px;
+                transition: color 0.3s ease;
+
+                &:hover {
+                    color: #007BFF;
+                }
+            }
+        }
+
+        .footer-social {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            max-width: 400px;
+            @include lg{
+                flex-direction: column;
+                width: 20%;
+                width: fit-content;
+            }
+
+            a {
+                color: #fff;
+                font-size: 1.5em;
+                transition: color 0.3s ease;
+
+                &:hover {
+                    color: #007BFF;
+                }
+            }
+        }
+
+        .footer-newsletter {
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
+            margin-bottom: 20px;
+            @include lg{
+               
+            }
+            p {
+                margin-bottom: 10px;
+            }
+
+            div {
+                display: flex;
+                align-items: center;
+                
+                input {
+                    outline: none;
+                    cursor: pointer;
+                    width: 80%;
+                    padding: 0px 10px;
+                    border: none;
+                    border-radius: 5px 0px 0px 5px;
+                    height: 40px;
+                }
+
+                button {
+                    width: 20%;
+                    height: 40px;
+                    border: none;
+                    border-radius: 0px 5px 5px 0px;
+                    background-color: #007BFF;
+                    color: #fff;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease;
+                    font-size: 10px;
+                    &:hover {
+                        background-color: #0056b3;
+                    }
+                }
+            }
+        }
+    }
+
+    .footer-bottom {
+        width: 100%;
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid #444;
+
+        p {
+            margin: 0;
+            font-size: 0.9em;
+        }
+    }
+}
+

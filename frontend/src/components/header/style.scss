@@ -1,0 +1,94 @@
+@import "../../mixins.scss";
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: var(--bg5);
+  height: 70px;
+  min-width: 300px;
+  @include md {
+    padding: 20px 40px;
+  }
+
+  .logo {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    cursor: pointer;
+    svg {
+      font-size: 20px;
+      margin-top: 8px;
+      color: var(--text1);
+      @include md {
+        font-size: 26px;
+      }
+    }
+    p {
+      color: var(--text1);
+      font-size: 20px;
+      font-weight: 500;
+      @include md {
+        font-size: 26px;
+      }
+    }
+  }
+
+  .header-profile-container {
+    svg {
+      font-size: 24px;
+      cursor: pointer;
+      outline: none;
+      @include md {
+        font-size: 30px;
+      }
+    }
+    .profile-menu {
+      z-index: 999;
+      background-color: var(--bg1);
+      position: absolute;
+      right: 20px;
+      top: 60px;
+      display: flex;
+      flex-direction: column;
+      list-style-type: none;
+      color: var(--text1);
+      gap: 10px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      border-radius: 6px;
+      width: 200px;
+
+      li {
+        padding-bottom: 2px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        cursor: pointer;
+        outline: none;
+
+        svg {
+          order: -1;
+          font-size: 16px;
+          color: var(--text1);
+          @include md {
+            font-size: 20px;
+          }
+        }
+        p {
+          font-size: 14px;
+          @include md {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+
+ 
+
+
+}
+
+

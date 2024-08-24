@@ -1,0 +1,110 @@
+@import "../../mixins.scss";
+
+.loginContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  min-height: 100dvh;
+  width: 100%;
+  background-color: var(--bg2);
+  padding: 20px 10px;
+  min-width: 300px;
+
+  @include md {
+    background-image: url("../../assets/login.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .formContainer {
+    background-color: var(--bg1);
+    padding: 24px 0px;
+    width: 80%;
+    max-width: 500px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    border-radius: 10px;
+    z-index: 999;
+    .loginTitle {
+      font-size: 16px;
+      margin: 0;
+      color: var(--text3);
+      font-weight: 600;
+      @include md {
+        font-size: 20px;
+      }
+    }
+    .inputContainer {
+      display: flex;
+      flex-direction: column;
+      width: 80%;
+      label {
+        margin-bottom: 4px;
+        margin-left: 2px;
+        font-weight: 500;
+        color: var(--text2);
+        font-size: 14px;
+      }
+      input {
+        border: none;
+        height: 40px;
+        padding: 0px 10px;
+        border-radius: 6px;
+        color: var(--text1);
+        background-color: var(--bg2);
+        font-weight: 500;
+        outline: none;
+        font-size: 14px;
+
+        &::-webkit-input-placeholder {
+          color: var(--text1);
+        }
+      }
+    }
+    .checkbox {
+      width: 80%;
+      display: flex;
+      align-items: center;
+      input {
+        height: 16px;
+        width: 16px;
+      }
+      label {
+        margin-left: 10px;
+        font-size: 14px;
+      }
+    }
+    h1 {
+      font-size: 30px;
+      margin-bottom: 0;
+    }
+    p {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text3);
+
+      span {
+        margin-left: 10px;
+        color: var(--text1);
+        font-weight: 600;
+        font-size: 16px;
+      }
+    }
+    button {
+      height: 36px;
+      border: none;
+      font-size: 14px;
+      border-radius: 6px;
+      background-color: var(--text1);
+      color: white;
+      font-weight: 400;
+      padding: 0px 16px;
+    }
+  }
+}

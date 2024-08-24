@@ -1,0 +1,157 @@
+@import "../../mixins.scss";
+$modal-background-color: rgba(0, 0, 0, 0.6);
+$modal-content-background: #fff;
+$modal-close-color: #aaa;
+$modal-close-hover-color: #000;
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $modal-background-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+
+  .modal-content {
+    background: $modal-content-background;
+    border-radius: 8px;
+    max-width: 800px;
+    width: 80%;
+    min-width: 300px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-bottom: 20px;
+
+    .modal-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: $modal-close-color;
+      cursor: pointer;
+
+      &:hover {
+        color: $modal-close-hover-color;
+      }
+    }
+
+    .header {
+      padding: 20px 0px;
+      border-bottom: 1px solid var(--bg3);
+      padding-left: 1rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .create-collection-container {
+      align-self: center;
+      width: 80%;
+      max-width: 400px;
+
+      .add {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        label {
+          font-weight: 500;
+          font-size: 12px;
+          @include md {
+            font-size: 16px;
+          }
+        }
+        svg {
+          font-size: 14px;
+          @include md {
+            font-size: 16px;
+          }
+        }
+      }
+      .input-container {
+        margin-top: 1rem;
+        input {
+          width: 80%;
+          border: none;
+          background-color: var(--bg5);
+          border-radius: 8px 0px 0px 8px;
+          height: 2rem;
+          outline: none;
+          padding-left: 0.5rem;
+          font-size: 12px;
+          font-weight: 500;
+          cursor: pointer;
+        }
+        button {
+          background-color: var(--bg2);
+          border: none;
+          border-radius: 0px 8px 8px 0px;
+          height: 2rem;
+          width: 20%;
+          font-weight: 500;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .empty-view-container {
+      img {
+        height: 200px;
+        @include md {
+          height: 300px;
+        }
+      }
+      p {
+        font-size: 14px;
+        font-weight: 500;
+        @include md {
+          font-size: 18px;
+        }
+      }
+    }
+    .modal-loading-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 200px;
+    }
+    .collections-container {
+      align-self: center;
+      list-style-type: none;
+      padding-left: 0;
+      width: 80%;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+
+      li {
+        width: fit-content;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        svg {
+          font-size: 4rem;
+          @include md {
+            font-size: 5rem;
+          }
+        }
+        p {
+          font-size: 12px;
+          font-weight: 500;
+          @include md {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+}

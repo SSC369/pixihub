@@ -1,0 +1,49 @@
+@import "../../mixins.scss";
+
+.hero {
+  background-image: url("https://res.cloudinary.com/dcnpafcrg/image/upload/v1722437102/pexels-rodolfoclix-1366927_dhsy9z.jpg");
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 300px;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 20px;
+  max-width: 800px;
+  margin-top: 20px;
+  @include lg {
+    height: 400px;
+    width: 40%;
+    margin: 0;
+  }
+
+  h1 {
+    color: #fff;
+    font-size: 16px;
+  }
+  p {
+    color: lightgray;
+    font-size: 12px;
+  }
+
+  .button-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .cta-btn {
+    background-color: var(--bg2);
+    border-radius: 6px;
+    color: #000;
+    border: none;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 8px 12px;
+  }
+}

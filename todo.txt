@@ -1,0 +1,5 @@
+1: sort pictures based on tags.
+2: A page for exploring pixihub pictures and add a search bar
+3: Add share option for a pictures
+4: Add sorting feature based upon no of likes.
+5: Add follower list modal in profile component

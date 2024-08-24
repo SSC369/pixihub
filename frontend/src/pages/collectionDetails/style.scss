@@ -1,0 +1,124 @@
+@import "../../mixins.scss";
+
+.collection-container {
+  min-height: calc(100dvh - 70px);
+  min-width: 300px;
+  color: var(--text1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0px;
+  position: relative;
+
+  h2 {
+    width: 80%;
+  }
+
+  .deleteIcon {
+    position: absolute;
+    right: 40px;
+    top: 20px;
+    cursor: pointer;
+    background-color: transparent;
+    height: 60px;
+    width: 60px;
+    background-color: var(--bg5);
+    border: none;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    svg {
+      font-size: 1.8rem;
+    }
+  }
+
+  .row {
+    width: 80%;
+    margin-top: 10px;
+    gap: 10px;
+    span {
+      color: var(--text3);
+      font-size: 12px;
+    }
+    .profile-container {
+      cursor: pointer;
+      background-color: var(--bg4);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 20px;
+      padding-right: 1rem;
+      .name {
+        font-size: 14px;
+      }
+      .profile {
+        background-color: var(--bg5);
+        width: 2rem;
+        height: 2rem;
+        border-radius: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+
+  .date {
+    width: 80%;
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    span {
+      color: var(--text3);
+    }
+    p {
+      font-weight: 500;
+    }
+  }
+
+  .collection-images {
+    align-self: center;
+    margin-top: 20px;
+    width: 80%;
+    list-style-type: none;
+    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @include md {
+      flex-direction: row;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    gap: 20px;
+    li {
+      position: relative;
+      width: fit-content;
+
+      .icon {
+        cursor: pointer;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: var(--bg5);
+        height: 30px;
+        width: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 100%;
+        svg {
+          font-size: 16px;
+        }
+      }
+      img {
+        cursor: pointer;
+        height: 200px;
+      }
+    }
+  }
+}

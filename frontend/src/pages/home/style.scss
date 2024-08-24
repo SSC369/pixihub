@@ -1,0 +1,28 @@
+@import "../../mixins.scss";
+
+.home {
+  min-height: calc(100dvh - 70px);
+  min-width: 300px;
+  color: var(--text1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--bg1);
+
+  @include md {
+    padding-top: 20px;
+  }
+
+  .hero-carousel-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @include lg {
+      flex-direction: row;
+      justify-content: center;
+      gap: 20px;
+      align-items: flex-start;
+    }
+  }
+}
